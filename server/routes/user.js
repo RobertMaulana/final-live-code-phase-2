@@ -4,10 +4,10 @@ const express = require('express'),
       passport = require("../helpers/passport"),
       token = require("../helpers/token");
 
-router.get("/", controller.dataUser)
-router.post("/", controller.createUser)
-router.get("/:id", controller.dataUserById)
-router.put("/:id", controller.editUser)
-router.delete("/:id", controller.deleteUser)
+router.get("/", token, controller.dataUser)
+router.post("/", token, controller.createUser)
+router.get("/:id", token, controller.dataUserById)
+router.put("/:id", token, controller.editUser)
+router.delete("/:id", token, controller.deleteUser)
 
 module.exports = router

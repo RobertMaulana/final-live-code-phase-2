@@ -3,12 +3,11 @@ const passport      = require('passport'),
       hash          = require('password-hash'),
       jwt           = require('jsonwebtoken'),
       Strategy      = passportLocal.Strategy,
-      db            = require('../models');
+      db            = require('../models/user');
 
 passport.use(new Strategy(
   (username, password, next) => {
-    db.User
-      .findOne(
+    db.findOne(
         {where: {username: username}}
       )
       .then((result) => {
