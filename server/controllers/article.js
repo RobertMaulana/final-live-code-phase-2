@@ -1,11 +1,15 @@
 const db = require("../models/article");
 
 let dataArticle = (req, res) => {
-  db.find({}, (err, result) => {
-    if (!err) {
-      res.send(result)
-    }
-  })
+  db.find()
+    .populate("author")
+    .exec((err, result) => {
+      if (!err) {
+        res.send(result)
+      }else {
+        res.send(err)
+      }
+    })
 }
 
 let createArticle = (req, res) => {
@@ -16,6 +20,8 @@ let createArticle = (req, res) => {
   }, (err, result) => {
     if (!err) {
       res.send(result)
+    }else {
+      res.send(err)
     }
   })
 }
@@ -52,6 +58,8 @@ let deleteArticle = (req, res) => {
   db.findByIdAndRemove(req.params.id, (err, result) => {
     if (!err) {
       res.send(result)
+    }else {
+      res.send(err)
     }
   })
 }

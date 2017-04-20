@@ -1,6 +1,16 @@
 const db = require("../models/user"),
       hash = require("password-hash");
 
+let signinUser = (req, res) => {
+  db.findById(req.params.id, (err, result) => {
+      if (!err) {
+        res.send(result)
+      }else {
+        res.send(err)
+      }
+    })
+}
+
 let dataUser = (req, res) => {
   db.find({}, (err, result) => {
     if (!err) {
@@ -60,5 +70,5 @@ let deleteUser = (req, res) => {
 }
 
 module.exports = {
-  dataUser, createUser, dataUserById, editUser, deleteUser
+  dataUser, createUser, dataUserById, editUser, deleteUser, signinUser
 }

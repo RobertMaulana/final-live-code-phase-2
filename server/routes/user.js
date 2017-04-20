@@ -5,7 +5,8 @@ const express = require('express'),
       token = require("../helpers/token");
 
 router.get("/", token, controller.dataUser)
-router.post("/", token, controller.createUser)
+router.post("/signin", passport, controller.signinUser)
+router.post("/signup", controller.createUser)
 router.get("/:id", token, controller.dataUserById)
 router.put("/:id", token, controller.editUser)
 router.delete("/:id", token, controller.deleteUser)
