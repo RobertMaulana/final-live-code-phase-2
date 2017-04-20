@@ -2,13 +2,7 @@ const db = require("../models/user"),
       hash = require("password-hash");
 
 let signinUser = (req, res) => {
-  db.findById(req.params.id, (err, result) => {
-      if (!err) {
-        res.send(result)
-      }else {
-        res.send(err)
-      }
-    })
+  res.send(req.user)
 }
 
 let dataUser = (req, res) => {

@@ -5,10 +5,9 @@
         <el-card class="box-card" v-for="(article, index) in this.$store.state.dataArticle" :key="index">
           <div slot="header" class="clearfix">
             <span style="line-height: 36px;">{{article.title}}</span>
-            <el-button-group style="float: right">
-              <el-button type="primary" icon="edit" @click="addArticle"></el-button>
-              <el-button type="primary" icon="edit" @click="editArticle"></el-button>
-              <el-button type="danger" icon="delete" @click="deleteArticle"></el-button>
+            <el-button-group style="float: right" v-show="statusLogin">
+              <el-button type="primary" icon="edit" @click="editArticle(article)"></el-button>
+              <el-button type="danger" icon="delete"></el-button>
             </el-button-group>
           </div>
           <div class="text item">
@@ -18,38 +17,20 @@
           </div>
         </el-card>
       </div>
-      <el-dialog title="New Article" v-model="dialogFormVisible">
-        <el-form :model="add_article">
-          <el-form-item>
-            <el-input v-model="add_article.title" placeholder="Title"></el-input>
-          </el-form-item>
-          <el-form-item>
-            <el-input v-model="add_article.content" placeholder="Content"></el-input>
-          </el-form-item>
-          <el-form-item>
-            <el-input v-model="add_article.author" placeholder="Author"></el-input>
-          </el-form-item>
-        </el-form>
-        <span slot="footer" class="dialog-footer">
-          <el-button @click="dialogFormVisible = false">Cancel</el-button>
-          <el-button type="primary" @click="addArticle();dialogFormVisible = false; notification()">Confirm</el-button>
-        </span>
-      </el-dialog>
       <el-dialog title="edit Article" v-model="dialogFormVisibleEdit">
         <el-form :model="edit_article">
           <el-form-item>
             <el-input v-model="edit_article.title" placeholder="Title"></el-input>
+            <el-input v-model="edit_article.id" placeholder="Title" type="hidden"></el-input>
           </el-form-item>
           <el-form-item>
             <el-input v-model="edit_article.content" placeholder="Content"></el-input>
-          </el-form-item>
-          <el-form-item>
-            <el-input v-model="edit_article.author" placeholder="Author"></el-input>
+            <el-input v-model="edit_article.author" placeholder="Author" type="hidden"></el-input>
           </el-form-item>
         </el-form>
         <span slot="footer" class="dialog-footer">
           <el-button @click="dialogFormVisibleEdit = false">Cancel</el-button>
-          <el-button type="primary" @click="editArticle();dialogFormVisibleEdit = false; notification()">Confirm</el-button>
+          <el-button type="primary" @click="editArticleAction(edit_article);dialogFormVisibleEdit = false;">Confirm</el-button>
         </span>
       </el-dialog>
     </el-col>
@@ -61,7 +42,6 @@ import { mapGetters, mapActions } from 'vuex'
 export default {
   data(){
     return {
-      dialogFormVisible: false,
       dialogFormVisibleEdit: false,
       add_article: {
         title: '',
@@ -69,6 +49,7 @@ export default {
         author: '',
       },
       edit_article: {
+        id: '',
         title: '',
         content: '',
         author: '',
@@ -76,19 +57,21 @@ export default {
     }
   },
   methods: {
-    addArticle() {
-      this.dialogFormVisible= true
+    editArticle(article) {
+      this.dialogFormVisibleEdit= true;
+      this.edit_article.id = article._id;
+      this.edit_article.title = article.title;
+      this.edit_article.content = article.content;
+      this.edit_article.author = window.localStorage.getItem('id');
     },
-    editArticle() {
-      this.dialogFormVisibleEdit= true
-    },
-    deleteArticle() {
-      this.dialogFormVisible= true
-    }
+    ...mapActions([
+      'editArticleAction'
+    ])
   },
   computed: {
     ...mapGetters({
       dataArticle: 'dataArticle',
+      statusLogin: "isLogin"
     })
   },
   created(){

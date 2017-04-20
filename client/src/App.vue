@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <HeaderApp></HeaderApp>
+    <AddArticleApp></AddArticleApp>
     <ContentApp></ContentApp>
   </div>
 </template>
@@ -8,11 +9,13 @@
 <script>
 import HeaderApp from "./components/HeaderApp"
 import ContentApp from "./components/ContentApp"
+import AddArticleApp from "./components/AddArticleApp"
 export default {
   name: 'app',
   components: {
     HeaderApp,
-    ContentApp
+    ContentApp,
+    AddArticleApp
   }
 }
 </script>

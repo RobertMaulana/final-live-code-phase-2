@@ -8,7 +8,7 @@ const passport      = require('passport'),
 passport.use(new Strategy(
   (username, password, next) => {
     db.findOne(
-        {where: {username: username}}
+        {username: username}
       )
       .then((result) => {
         if (result == null) {

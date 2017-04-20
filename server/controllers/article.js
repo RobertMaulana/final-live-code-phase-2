@@ -47,7 +47,15 @@ let editArticle = (req, res) => {
       }
     }, {new: true}, (err, result) => {
       if (!err) {
-        res.send(result)
+        db.find()
+          .populate("author")
+          .exec((err, result) => {
+            if (!err) {
+              res.send(result)
+            }else {
+              res.send(err)
+            }
+          })
       }else {
         res.send(err)
       }

@@ -2,23 +2,26 @@
   <div>
     <el-menu :default-active="activeIndex2" class="el-menu-demo" mode="horizontal">
       <el-menu-item index="1">Simple Blog App</el-menu-item>
-      <div class="auth_button">
-        <el-menu-item index="1" id="login">Register</el-menu-item>
+      <div class="auth_button" v-show="statusLogin == null">
+        <el-menu-item index="1" >Register</el-menu-item>
         <el-menu-item index="1" @click="signin">Signin</el-menu-item>
+      </div>
+      <div v-show="statusLogin" style="float:right">
+        <el-menu-item index="1" @click="signout">Logout</el-menu-item>
       </div>
     </el-menu>
     <el-dialog title="Signin" v-model="dialogFormVisibleSignin">
-      <el-form>
+      <el-form :model="form_signin">
         <el-form-item>
-          <el-input v-model="username" placeholder="Username"></el-input>
+          <el-input v-model="form_signin.username" placeholder="Username"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-input v-model="password" placeholder="Password"></el-input>
+          <el-input v-model="form_signin.password" placeholder="Password" type="password"></el-input>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisibleSignin = false">Cancel</el-button>
-        <el-button type="primary" @click="signin();dialogFormVisibleSignin = false; notification()">Confirm</el-button>
+        <el-button type="primary" @click="signinAction(form_signin);dialogFormVisibleSignin = false;">Confirm</el-button>
       </span>
     </el-dialog>
   </div>
@@ -29,8 +32,10 @@ import { mapGetters, mapActions } from 'vuex'
 export default {
     data() {
         return {
-          username: '',
-          password: '',
+          form_signin: {
+            username: '',
+            password: '',
+          },
           dialogFormVisibleSignin: false,
           activeIndex: '1',
           activeIndex2: '1'
@@ -39,36 +44,20 @@ export default {
       methods: {
         signin(){
           this.dialogFormVisibleSignin = true
-        }
-      }
-    // methods: {
-    //   ...mapActions([
-    //     "signup","signin", "view_cart"
-    //   ]),
-    //   signup_modal(){
-    //     this.dialogFormVisible = true
-    //   },
-    //   signin_modal(){
-    //     this.dialogFormVisibleSignin = true
-    //   },
-    //   notification() {
-    //     this.$message({
-    //       message: 'Congrats, Please verify link activation in your mail address!',
-    //       type: 'success'
-    //     });
-    //   },
-    //   logout(){
-    //     window.localStorage.clear();
-    //     window.location = "/";
-    //   }
-    // },
-    // computed: {
-    //   ...mapGetters({
-    //     statusRegistration: 'needActivation',
-    //     statusLogin: 'isLogin',
-    //     countCart: 'countCart'
-    //   })
-    // }
+        },
+        signout(){
+          window.localStorage.clear();
+          window.location = "/";
+        },
+        ...mapActions([
+          "signinAction"
+        ]),
+      },
+      computed: {
+      ...mapGetters({
+        statusLogin: "isLogin"
+      })
+    }
 }
 </script>
 
