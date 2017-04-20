@@ -3,16 +3,18 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
-export const store = new Vuex({
+export const store = new Vuex.Store({
   state:{
     dataArticle: []
   },
   getters: {
-
+    dataArticle: (state) => {
+      return state.dataArticle
+    },
   },
   mutations: {
     dataArticle: (state, payload) => {
-
+      state.dataArticle = payload
     }
   },
   actions: {

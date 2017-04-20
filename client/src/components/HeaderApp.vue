@@ -1,52 +1,26 @@
 <template lang="html">
   <div>
-    <el-menu :default-active="activeIndex2" class="el-menu-demo" mode="horizontal" @select="handleSelect">
+    <el-menu :default-active="activeIndex2" class="el-menu-demo" mode="horizontal">
       <el-menu-item index="1">Simple Blog App</el-menu-item>
       <div class="auth_button">
         <el-menu-item index="1" id="login">Register</el-menu-item>
-        <el-menu-item index="1" id="logout">Login</el-menu-item>
+        <el-menu-item index="1" @click="signin">Signin</el-menu-item>
       </div>
     </el-menu>
-    <!-- <el-dialog title="Registration" v-model="dialogFormVisible">
-      <el-form :model="form_signup">
-        <el-form-item>
-          <el-input v-model="form_signup.username" placeholder="Username"></el-input>
-        </el-form-item>
-        <el-form-item
-        prop="email"
-        :rules="[
-          { required: true, message: 'Please input email address', trigger: 'blur' },
-          { type: 'email', message: 'Please input correct email address', trigger: 'blur,change' }
-        ]"
-      >
-        <el-input v-model="form_signup.email" placeholder="Email"></el-input>
-        </el-form-item>
-        <el-form-item>
-          <el-input type="password" v-model="form_signup.password" placeholder="Password"></el-input>
-        </el-form-item>
-        <el-form-item>
-          <el-input v-model="form_signup.role" placeholder="Admin / Guest"></el-input>
-        </el-form-item>
-      </el-form>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">Cancel</el-button>
-        <el-button type="primary" @click="signup(form_signup);dialogFormVisible = false; notification()">Confirm</el-button>
-      </span>
-    </el-dialog>
     <el-dialog title="Signin" v-model="dialogFormVisibleSignin">
-      <el-form :model="form_signin">
+      <el-form>
         <el-form-item>
-          <el-input v-model="form_signin.username" placeholder="Username"></el-input>
+          <el-input v-model="username" placeholder="Username"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-input type="password" v-model="form_signin.password" placeholder="Password"></el-input>
+          <el-input v-model="password" placeholder="Password"></el-input>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisibleSignin = false">Cancel</el-button>
-        <el-button type="primary" @click="signin(form_signin);dialogFormVisibleSignin = false;">Confirm</el-button>
+        <el-button type="primary" @click="signin();dialogFormVisibleSignin = false; notification()">Confirm</el-button>
       </span>
-    </el-dialog> -->
+    </el-dialog>
   </div>
 </template>
 
@@ -55,13 +29,16 @@ import { mapGetters, mapActions } from 'vuex'
 export default {
     data() {
         return {
+          username: '',
+          password: '',
+          dialogFormVisibleSignin: false,
           activeIndex: '1',
           activeIndex2: '1'
         };
       },
       methods: {
-        handleSelect(key, keyPath) {
-          console.log(key, keyPath);
+        signin(){
+          this.dialogFormVisibleSignin = true
         }
       }
     // methods: {
