@@ -33,7 +33,8 @@ Use root URL http://localhost:3000/[routes]
 | Routes | Method | Description |
 | ------ | ------ | ------ |
 | /user | GET | Get all data user |
-| /user | POST | Create data user |
+| /user/signup | POST | Signup user |
+| /user/signin | POST | Signin user |
 | /user/:id | GET | Get data user by Id
 | /user/:id | PUT | Update data user by Id
 | /user/:id | DELETE | Delete data user by Id

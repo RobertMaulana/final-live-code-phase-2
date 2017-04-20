@@ -3,13 +3,33 @@
     <el-menu :default-active="activeIndex2" class="el-menu-demo" mode="horizontal">
       <el-menu-item index="1">Simple Blog App</el-menu-item>
       <div class="auth_button" v-show="statusLogin == null">
-        <el-menu-item index="1" >Register</el-menu-item>
+        <el-menu-item index="1" @click="signup">Signup</el-menu-item>
         <el-menu-item index="1" @click="signin">Signin</el-menu-item>
       </div>
       <div v-show="statusLogin" style="float:right">
         <el-menu-item index="1" @click="signout">Logout</el-menu-item>
       </div>
     </el-menu>
+    <el-dialog title="Signup" v-model="dialogFormVisibleSignup">
+      <el-form :model="form_signup">
+        <el-form-item>
+          <el-input v-model="form_signup.name" placeholder="Name"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-input v-model="form_signup.username" placeholder="Username"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-input v-model="form_signup.email" placeholder="Email"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-input v-model="form_signup.password" placeholder="Password" type="password"></el-input>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisibleSignup = false">Cancel</el-button>
+        <el-button type="primary" @click="signupAction(form_signup);dialogFormVisibleSignup = false;notification()">Confirm</el-button>
+      </span>
+    </el-dialog>
     <el-dialog title="Signin" v-model="dialogFormVisibleSignin">
       <el-form :model="form_signin">
         <el-form-item>
@@ -36,7 +56,14 @@ export default {
             username: '',
             password: '',
           },
+          form_signup: {
+            name: '',
+            username: '',
+            email: '',
+            password: ''
+          },
           dialogFormVisibleSignin: false,
+          dialogFormVisibleSignup: false,
           activeIndex: '1',
           activeIndex2: '1'
         };
@@ -49,8 +76,18 @@ export default {
           window.localStorage.clear();
           window.location = "/";
         },
+        signup(){
+          this.dialogFormVisibleSignup = true
+        },
+        notification() {
+          this.$notify({
+            title: 'Success',
+            message: 'Success registration, please login in menu bar!',
+            type: 'success'
+          });
+        },
         ...mapActions([
-          "signinAction"
+          "signinAction","signupAction"
         ]),
       },
       computed: {

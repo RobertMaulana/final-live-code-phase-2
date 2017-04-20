@@ -1,11 +1,16 @@
 <template lang="html">
   <el-row :gutter="20">
-    <el-col :span="2"><div class="grid-content bg-purple"></div></el-col>
+    <el-col :span="2"><div class="grid-content"></div></el-col>
     <el-col :span="20">
       <div class="grid-content bg-purple">
         <div style="margin-top: 15px;">
-          <el-input placeholder="Please input">
+          <el-input placeholder="Please input" v-show="statusLogin">
             <el-button slot="append" icon="plus" @click="addArticle"></el-button>
+          </el-input>
+          <el-input
+            placeholder="Please input"
+             v-show="statusLogin == null">
+            <el-button slot="append" icon="plus" @click="addArticle" :disabled="true"></el-button>
           </el-input>
         </div>
       </div>
@@ -26,10 +31,10 @@
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">Cancel</el-button>
-        <el-button type="primary" @click="newArticle(add_article);dialogFormVisible = false; notification()">Confirm</el-button>
+        <el-button type="primary" @click="newArticle(add_article);dialogFormVisible = false;">Confirm</el-button>
       </span>
     </el-dialog>
-    <el-col :span="2"><div class="grid-content bg-purple"></div></el-col>
+    <el-col :span="2"><div class="grid-content"></div></el-col>
   </el-row>
 </template>
 
@@ -52,6 +57,11 @@ export default {
     ...mapActions([
       "newArticle"
     ]),
+  },
+  computed: {
+  ...mapGetters({
+      statusLogin: "isLogin"
+    })
   }
 }
 </script>

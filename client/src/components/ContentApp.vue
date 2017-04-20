@@ -7,7 +7,7 @@
             <span style="line-height: 36px;">{{article.title}}</span>
             <el-button-group style="float: right" v-show="statusLogin">
               <el-button type="primary" icon="edit" @click="editArticle(article)"></el-button>
-              <el-button type="danger" icon="delete"></el-button>
+              <el-button type="danger" icon="delete" @click="deleteArticle(article)"></el-button>
             </el-button-group>
           </div>
           <div class="text item">
@@ -58,14 +58,34 @@ export default {
   },
   methods: {
     editArticle(article) {
-      this.dialogFormVisibleEdit= true;
-      this.edit_article.id = article._id;
-      this.edit_article.title = article.title;
-      this.edit_article.content = article.content;
-      this.edit_article.author = window.localStorage.getItem('id');
+      if (article.author.username != window.localStorage.getItem('user')) {
+        this.notification("edit not authorized!")
+      }else{
+        this.dialogFormVisibleEdit= true;
+        this.edit_article.id = article._id;
+        this.edit_article.title = article.title;
+        this.edit_article.content = article.content;
+        this.edit_article.author = window.localStorage.getItem('id');
+      }
+    },
+    notification(notif="edit not authorized!") {
+      if (notif == "delete not authorized!") {
+        this.$notify({
+          title: 'Error',
+          message: 'Sorry, you are not authorized to delete this article!',
+          type: 'error'
+        });
+      }else if (notif="edit not authorized!") {
+        this.$notify({
+          title: 'Error',
+          message: 'Sorry, you are not authorized to edit this article!',
+          type: 'error'
+        });
+      }
     },
     ...mapActions([
-      'editArticleAction'
+      'editArticleAction',
+      'deleteArticle'
     ])
   },
   computed: {
@@ -81,6 +101,9 @@ export default {
 </script>
 
 <style lang="css" scoped>
+  .el-card {
+    margin-top: 20px;
+  }
   .el-row {
     margin-top: 20px;
   }
